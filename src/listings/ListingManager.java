@@ -154,6 +154,7 @@ public class ListingManager {
                 }
             }
 
+            int datesBooked = 0;
             for(String date : dates) {
                 resDates = st.executeQuery(getDates);
                 while(resDates.next()) {
@@ -204,11 +205,16 @@ public class ListingManager {
                         }
                         System.out.println("[SUCCESS] : Listing " + listingID + " has been successfully booked for " +
                                 lDate + "");
+                        datesBooked++;
                     }
                 }
             }
-
-            return true;
+            if (datesBooked == 0) {
+                System.out.println("[INFO] : None of the specified dates exist in the available bookings");
+                return false;
+            } else {
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("[ERROR] : Unable to book the specified listing");
             e.printStackTrace();
@@ -312,9 +318,15 @@ public class ListingManager {
                 String updateHistory = "UPDATE History SET action = 'cancelled', action_date = '" + cD + "' WHERE " +
                         "listing_id = " + listing + " AND sin_renter = " + renterSin + " AND sin_host = " + hostSin +
                         " AND booking_date = '" + date + "'";
-                st.executeUpdate(updateHistory);
+                int updated = st.executeUpdate(updateHistory);
+
+                // if we find that a number of rows were affected, print out a success message
+                if (updated != 0) {
+                    System.out.println("[SUCCESS] : The booking for " + date + " has been successfully cancelled");
+                } else {
+                    System.out.println("[INFO] : The booking for " + date + " does not exist for the given listing id");
+                }
             }
-            System.out.println("[SUCCESS] : The booking has been successfully removed");
             return true;
         } catch (SQLException e) {
             System.err.println("[ERROR] : Unable to cancel the specified booking");
