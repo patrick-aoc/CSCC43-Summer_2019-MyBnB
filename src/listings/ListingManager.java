@@ -39,7 +39,7 @@ public class ListingManager {
                 String[] datePrice =  dap.split(",");
                 List<String> datePriceList = Arrays.asList(datePrice);
                 if (!(datePriceList.get(0).matches("\\d{4}-\\d{2}-\\d{2}") && datePriceList.get(1).matches("^\\d{0,8}(\\.\\d{1,4})?$"))) {
-                    System.out.println("[ERROR] : Invalid date/price was specified");
+                    System.err.println("[ERROR] : Invalid date/price was specified");
                     return false;
                 }
             }
@@ -59,7 +59,7 @@ public class ListingManager {
             try {
                 pS.execute();
             } catch (SQLIntegrityConstraintViolationException e) {
-                System.out.println("[ERROR] : You can't specify the same date more than once for a single listing");
+                System.err.println("[ERROR] : You can't specify the same date more than once for a single listing");
                 e.printStackTrace();
                 return false;
             }
@@ -115,7 +115,7 @@ public class ListingManager {
             ResultSet resDates = st.executeQuery(getDates);
 
             if (!resDates.next()) {
-                System.out.println("[ERROR] : There are no dates available for the specified listing");
+                System.err.println("[ERROR] : There are no dates available for the specified listing");
                 return false;
             } else {
                 System.out.println("Available Dates for Listing ID: " + listingID + "");
@@ -149,7 +149,7 @@ public class ListingManager {
 
             for(String date : dates) {
                 if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                    System.out.println("[ERROR] : One of your dates was incorrectly formatted. Please try again");
+                    System.err.println("[ERROR] : One of your dates was incorrectly formatted. Please try again");
                     return false;
                 }
             }
@@ -216,7 +216,7 @@ public class ListingManager {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("[ERROR] : Unable to book the specified listing");
+            System.err.println("[ERROR] : Unable to book the specified listing");
             e.printStackTrace();
         }
         return false;
@@ -230,7 +230,7 @@ public class ListingManager {
             try {
                 listing = Integer.parseInt(idList);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] : Invalid listing was specified");
+                System.err.println("[ERROR] : Invalid listing was specified");
                 return false;
             }
 
@@ -242,7 +242,7 @@ public class ListingManager {
 
             // If the specified listing is not associated with the account, then we end it
             if(!res.next()) {
-                System.out.println("[ERROR] : The specified listing has no affiliation with your account");
+                System.err.println("[ERROR] : The specified listing has no affiliation with your account");
                 return false;
             }
 
@@ -343,7 +343,7 @@ public class ListingManager {
             try {
                 listing = Integer.parseInt(idList);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] : Invalid listing was specified");
+                System.err.println("[ERROR] : Invalid listing was specified");
                 return false;
             }
 
@@ -354,7 +354,7 @@ public class ListingManager {
 
             // If the specified listing is not associated with the account, then we end it
             if(!res.next()) {
-                System.out.println("[ERROR] : The specified listing has no affiliation with your account");
+                System.err.println("[ERROR] : The specified listing has no affiliation with your account");
                 return false;
             }
 
@@ -404,7 +404,7 @@ public class ListingManager {
                 String updatedPrice  = reader.nextLine();
 
                 if (!updatedPrice.matches("^\\d{0,8}(\\.\\d{1,4})?$")) {
-                    System.out.println("[ERROR] : Invalid price was specified. Moving on to the next date");
+                    System.err.println("[ERROR] : Invalid price was specified. Moving on to the next date");
                     continue;
                 }
 
@@ -436,7 +436,7 @@ public class ListingManager {
             try {
                 listing = Integer.parseInt(idList);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] : Invalid listing was specified");
+                System.err.println("[ERROR] : Invalid listing was specified");
                 return false;
             }
 
@@ -447,7 +447,7 @@ public class ListingManager {
 
             // If the specified listing is not associated with the account, then we end it
             if(!res.next()) {
-                System.out.println("[ERROR] : The specified listing has no affiliation with your account");
+                System.err.println("[ERROR] : The specified listing has no affiliation with your account");
                 return false;
             }
 
@@ -521,7 +521,7 @@ public class ListingManager {
             try {
                 listing = Integer.parseInt(idList);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] : Invalid listing was specified");
+                System.err.println("[ERROR] : Invalid listing was specified");
                 return false;
             }
 
@@ -531,7 +531,7 @@ public class ListingManager {
             ResultSet res = st.executeQuery(getListing);
 
             if(!res.next()) {
-                System.out.println("[ERROR] : The specified listing has no affiliation with your account");
+                System.err.println("[ERROR] : The specified listing has no affiliation with your account");
                 return false;
             }
 

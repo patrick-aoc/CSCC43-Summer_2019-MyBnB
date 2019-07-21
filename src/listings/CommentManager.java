@@ -112,7 +112,7 @@ public class CommentManager {
             String name = reader.nextLine();
 
             if(!hostSins.contains(hosts.get(name))) {
-                System.out.println("[ERROR] : That person does not exist");
+                System.err.println("[ERROR] : That person does not exist");
                 return false;
             }
 
@@ -120,7 +120,7 @@ public class CommentManager {
             String rating = reader.nextLine();
 
             if (!rating.matches("[1-5]")) {
-                System.out.println("[ERROR] : Invalid rating");
+                System.err.println("[ERROR] : Invalid rating");
                 return false;
             }
 
@@ -131,7 +131,7 @@ public class CommentManager {
             String listID = reader.nextLine();
 
             if(!listings.contains(Integer.parseInt(listID))) {
-                System.out.println("[ERROR] : That listing does not exist with the associated host");
+                System.err.println("[ERROR] : That listing does not exist with the associated host");
                 return false;
             }
 
@@ -139,7 +139,7 @@ public class CommentManager {
             String listRating = reader.nextLine();
 
             if (!listRating.matches("[1-5]")) {
-                System.out.println("[ERROR] : Invalid rating");
+                System.err.println("[ERROR] : Invalid rating");
                 return false;
             }
 

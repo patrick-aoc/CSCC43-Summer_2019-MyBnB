@@ -18,7 +18,7 @@ public class Menus {
         System.out.println("1. Log in.");
         System.out.println("2. Create an account.");
         System.out.println("3. Search for listings.");
-        System.out.print("Choose one of the previous options [0-2]: ");
+        System.out.print("Choose one of the previous options [0-3]: ");
     }
 
     public static void renterMenu() {
@@ -28,7 +28,7 @@ public class Menus {
         System.out.println("2. Cancel a booking.");
         System.out.println("3. Review a host/listing.");
         System.out.println("4. Delete account.");
-        System.out.print("Choose one of the previous options [0-5]: ");
+        System.out.print("Choose one of the previous options [0-4]: ");
     }
 
     public static void hostMenu() {
@@ -50,7 +50,7 @@ public class Menus {
         System.out.println("1. Search by latitude/longitude.");
         System.out.println("2. Search by postal code.");
         System.out.println("3. Search by address.");
-        System.out.println("4. Search by address.");
+        System.out.println("4. Search by date range.");
         System.out.print("Choose one of the previous options [0-7]: ");
     }
 }

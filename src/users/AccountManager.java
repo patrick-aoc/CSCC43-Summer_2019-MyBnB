@@ -25,7 +25,7 @@ public class AccountManager {
 
                     // If the sin contains letters or is less than 9 characters, it is invalid
                     if (sin.length() < 9 || sin.contains("[a-zA-Z]+") == true) {
-                        System.out.println("[ERROR] : Invalid SIN");
+                        System.err.println("[ERROR] : Invalid SIN");
                         return null;
                     }
                     System.out.print("Enter your username: ");
@@ -75,7 +75,7 @@ public class AccountManager {
                             pS.setInt(2, user.getSin());
                             pS.execute();
                         } catch (SQLIntegrityConstraintViolationException e) {
-                            System.out.println("[ERROR] : The specified user already exists");
+                            System.err.println("[ERROR] : The specified user already exists");
                             user = null;
                         }
 
@@ -112,20 +112,20 @@ public class AccountManager {
                             pS.setInt(1, user.getSin());
                             pS.execute();
                         } catch (SQLIntegrityConstraintViolationException e) {
-                            System.out.println("[ERROR] : The specified user already exists");
+                            System.err.println("[ERROR] : The specified user already exists");
                             user = null;
                         }
                         return user;
                     } else {
-                        System.out.println("[ERROR] : Invalid selection. Returning to the previous menu.");
+                        System.err.println("[ERROR] : Invalid selection. Returning to the previous menu.");
                         return null;
                     }
                 } else {
-                    System.out.println("[ERROR] : You are too young to be using this service");
+                    System.err.println("[ERROR] : You are too young to be using this service");
                     return null;
                 }
             } else {
-                System.out.println("[ERROR] : Invalid date format");
+                System.err.println("[ERROR] : Invalid date format");
                 return null;
             }
 
@@ -180,7 +180,7 @@ public class AccountManager {
                     }
                 }
             } else {
-                System.out.println("[ERROR] : Unable to login with the given credentials. Please try again");
+                System.err.println("[ERROR] : Unable to login with the given credentials. Please try again");
                 return null;
             }
         } catch (SQLException e) {
@@ -205,7 +205,7 @@ public class AccountManager {
             } else if (selection.equalsIgnoreCase("n")) {
                 return true;
             } else {
-                System.out.println("[ERROR] : Invalid selection. Please try again");
+                System.err.println("[ERROR] : Invalid selection. Please try again");
             }
 
         } catch (SQLException e) {

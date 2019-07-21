@@ -85,7 +85,7 @@ public class DatabaseWorker {
                     "postal_code VARCHAR(7)," +
                     "city VARCHAR(50)," +
                     "country VARCHAR(50)," +
-                    "PRIMARY KEY ( listing_id, sin_host )," +
+                    "PRIMARY KEY ( listing_id, sin_host, latitude, longitude )," +
                     "FOREIGN KEY ( sin_host ) REFERENCES Hosts( sin ) ON DELETE CASCADE," +
                     "CHECK (latitude >= -90 AND latitude <= 90)," +
                     "CHECK (longitude >= -180 AND longitude <= 180)" +

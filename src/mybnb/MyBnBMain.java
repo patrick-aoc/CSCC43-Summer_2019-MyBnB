@@ -10,6 +10,7 @@ import database.DatabaseWorker;
 import listings.CommentManager;
 import listings.Listing;
 import listings.ListingManager;
+import listings.SearchManager;
 import users.AccountManager;
 import users.Renter;
 import users.User;
@@ -45,7 +46,8 @@ public class MyBnBMain {
                 try {
                     choice = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
-                    System.out.println("[ERROR] : There was a problem with parsing your input");
+                    System.err.println("[ERROR] : There was a problem with parsing your input");
+                    choice = -1;
                 }
 
                 if (choice == 1) {
@@ -72,7 +74,7 @@ public class MyBnBMain {
                         try {
                             choiceBnB = Integer.parseInt(inputBnB);
                         } catch (NumberFormatException e) {
-                            System.out.println("[ERROR] : There was a problem with parsing your input");
+                            System.err.println("[ERROR] : There was a problem with parsing your input");
                         }
 
                         User user = null;
@@ -91,7 +93,8 @@ public class MyBnBMain {
                                         try {
                                             choiceRenter = Integer.parseInt(inputRenter);
                                         } catch (NumberFormatException e) {
-                                            System.out.println("[ERROR] : There was a problem with parsing your input");
+                                            System.err.println("[ERROR] : There was a problem with parsing your input");
+                                            choiceRenter = -1;
                                         }
 
                                         if (choiceRenter == 1) {
@@ -110,7 +113,7 @@ public class MyBnBMain {
                                                 break;
                                             }
                                         } else {
-                                            System.out.println("[ERROR] : Please enter your choice again");
+                                            System.err.println("[ERROR] : Please enter your choice again");
                                         }
                                     } while(inputRenter.compareTo("0") != 0);
                                 } else {
@@ -123,7 +126,8 @@ public class MyBnBMain {
                                         try {
                                             choiceHost = Integer.parseInt(inputHost);
                                         } catch (NumberFormatException e) {
-                                            System.out.println("[ERROR] : There was a problem with parsing your input");
+                                            System.err.println("[ERROR] : There was a problem with parsing your input");
+                                            choiceHost = -1;
                                         }
 
                                         if (choiceHost == 1) {
@@ -151,7 +155,7 @@ public class MyBnBMain {
                                                 break;
                                             }
                                         } else {
-                                            System.out.println("[ERROR] : Please enter your choice again");
+                                            System.err.println("[ERROR] : Please enter your choice again");
                                         }
                                     } while(inputHost.compareTo("0") != 0);
                                 }
@@ -164,8 +168,39 @@ public class MyBnBMain {
                             }
                         } else if (choiceBnB == 3) {
 
+                            String inputSearch = "";
+                            int choiceSearch = -1;
+                            do {
+
+                                // Initial menu for switching between what kind of search the user wants to perform
+                                Menus.queriesMenu();
+                                inputSearch = sc.nextLine();
+
+                                try {
+                                    choiceSearch = Integer.parseInt(inputSearch);
+                                } catch (NumberFormatException e) {
+                                    System.err.println("[ERROR] : There was a problem with parsing your input");
+                                    choiceSearch = -1;
+                                }
+
+                                if (choiceSearch == 1) {
+                                    System.out.println("===============LATITUDE/LONGITUDE SEARCH===============");
+                                    SearchManager.searchByLatLong(conn, sc);
+                                } else if (choiceSearch == 2) {
+                                    System.out.println("===============POSTAL CODE SEARCH===============");
+                                } else if (choiceSearch == 3) {
+                                    System.out.println("===============ADDRESS SEARCH===============");
+                                } else if (choiceSearch == 4) {
+                                    System.out.println("===============DATE RANGE SEARCH===============");
+
+                                } else if (choice == 5) {
+
+                                } else {
+                                    System.err.println("[ERROR] : Please enter your choice again");
+                                }
+                            } while (inputSearch.compareTo("0") != 0);
                         } else {
-                            System.out.println("[ERROR] : Please enter your choice again");
+                            System.err.println("[ERROR] : Please enter your choice again");
                         }
                     } while (inputBnB.compareTo("0") != 0);
                 }
