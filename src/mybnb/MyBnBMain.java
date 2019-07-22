@@ -53,14 +53,6 @@ public class MyBnBMain {
                 if (choice == 1) {
                     DatabaseWorker.createTables(conn);
                 } else if (choice == 2) {
-                    System.out.print("Please specify which table you'd like to delete: ");
-                    String tableToDelete = sc.nextLine();
-                    deleteTable(conn, tableToDelete);
-                } else if (choice == 3) {
-                    System.out.print("Please specify which table you'd like to view: ");
-                    String tab = sc.nextLine();
-                    printColSchema(conn, tab);
-                } else if (choice == 4) {
 
                     // Menu in which the user is choosing between logging in or creating an account
                     String inputBnB = "";
@@ -188,13 +180,16 @@ public class MyBnBMain {
                                     SearchManager.searchByLatLong(conn, sc);
                                 } else if (choiceSearch == 2) {
                                     System.out.println("===============POSTAL CODE SEARCH===============");
+                                    SearchManager.searchByPostalCode(conn, sc);
                                 } else if (choiceSearch == 3) {
                                     System.out.println("===============ADDRESS SEARCH===============");
+                                    SearchManager.searchByAddress(conn, sc);
                                 } else if (choiceSearch == 4) {
                                     System.out.println("===============DATE RANGE SEARCH===============");
-
-                                } else if (choice == 5) {
-
+                                    SearchManager.searchByDateRange(conn, sc);
+                                } else if (choiceSearch == 5) {
+                                    System.out.println("===============FULL SEARCH===============");
+                                    SearchManager.searchWithFilters(conn, sc);
                                 } else {
                                     System.err.println("[ERROR] : Please enter your choice again");
                                 }
@@ -203,8 +198,9 @@ public class MyBnBMain {
                             System.err.println("[ERROR] : Please enter your choice again");
                         }
                     } while (inputBnB.compareTo("0") != 0);
+                } else {
+                    System.err.println("[ERROR] : Please enter your choice again");
                 }
-
             } while (input.compareTo("0") != 0);
 
         } else {
@@ -238,56 +234,5 @@ public class MyBnBMain {
             e.printStackTrace();
         }
         return conn;
-    }
-
-    public static void deleteTable(Connection conn, String tableToDelete) {
-        try {
-            Statement st = conn.createStatement();
-            String sql = "DROP TABLE IF EXISTS " + tableToDelete;
-            st.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            System.err.println("[ERROR] Unable to drop the given table");
-            e.printStackTrace();
-        }
-    }
-
-    //================================TESTING STUFF=====================================================
-    public static void printColSchema(Connection conn, String tableName) {
-        try {
-            Statement st = conn.createStatement();
-            System.out.print("Table Name: ");
-            ArrayList<String> result = colSchema(tableName, conn);
-            System.out.println("");
-            System.out.println("------------");
-            System.out.println("Total number of fields: " + result.size() / 2);
-            for (int i = 0; i < result.size(); i += 2) {
-                System.out.println("-");
-                System.out.println("Field Name: " + result.get(i));
-                System.out.println("Field Type: " + result.get(i + 1));
-            }
-            System.out.println("------------");
-            System.out.println("");
-        } catch(SQLException e) {
-            System.out.println(":(");
-        }
-    }
-
-    public static ArrayList<String> colSchema(String tableName, Connection conn) {
-        ArrayList<String> result = new ArrayList<String>();
-        try {
-            DatabaseMetaData meta = conn.getMetaData();
-            ResultSet rs = meta.getColumns(null, null, tableName, null);
-            while(rs.next()) {
-                result.add(rs.getString(4));
-                result.add(rs.getString(6));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.err.println("Retrieval of Table Info failed!");
-            e.printStackTrace();
-            result.clear();
-        }
-        return result;
     }
 }

@@ -6,10 +6,8 @@ public class Menus {
         System.out.println("=========MENU=========");
         System.out.println("0. Exit.");
         System.out.println("1. Initialize Database. (First time setup)");
-        System.out.println("2. Delete a table.");
-        System.out.println("3. View table schema.");
-        System.out.println("4. Go to MyBnB.");
-        System.out.print("Choose one of the previous options [0-4]: ");
+        System.out.println("2. Go to MyBnB.");
+        System.out.print("Choose one of the previous options [0-2]: ");
     }
 
     public static void myBnBMenu() {
@@ -51,6 +49,7 @@ public class Menus {
         System.out.println("2. Search by postal code.");
         System.out.println("3. Search by address.");
         System.out.println("4. Search by date range.");
-        System.out.print("Choose one of the previous options [0-7]: ");
+        System.out.println("5. Search by multiple filters.");
+        System.out.print("Choose one of the previous options [0-5]: ");
     }
 }
