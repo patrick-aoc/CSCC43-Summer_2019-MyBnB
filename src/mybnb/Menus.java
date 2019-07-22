@@ -16,7 +16,8 @@ public class Menus {
         System.out.println("1. Log in.");
         System.out.println("2. Create an account.");
         System.out.println("3. Search for listings.");
-        System.out.print("Choose one of the previous options [0-3]: ");
+        System.out.println("4. View reports.");
+        System.out.print("Choose one of the previous options [0-4]: ");
     }
 
     public static void renterMenu() {
@@ -51,5 +52,18 @@ public class Menus {
         System.out.println("4. Search by date range.");
         System.out.println("5. Search by multiple filters.");
         System.out.print("Choose one of the previous options [0-5]: ");
+    }
+
+    public static void reportsMenu() {
+        System.out.println("=========REPORTS=========");
+        System.out.println("0. Back.");
+        System.out.println("1. Total number of bookings.");
+        System.out.println("2. Total number of listings.");
+        System.out.println("3. Top hosts based on # of listings.");
+        System.out.println("4. Listing percentage per host.");
+        System.out.println("5. Top renters based on # of bookings.");
+        System.out.println("6. Top users with the most cancellations.");
+        System.out.println("7. Popular phrases/words per listing.");
+        System.out.print("Choose one of the previous options [0-7]: ");
     }
 }

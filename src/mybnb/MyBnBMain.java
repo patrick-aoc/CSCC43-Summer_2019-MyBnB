@@ -194,6 +194,41 @@ public class MyBnBMain {
                                     System.err.println("[ERROR] : Please enter your choice again");
                                 }
                             } while (inputSearch.compareTo("0") != 0);
+                        } else if (choiceBnB == 4) {
+
+                            String inputReports = "";
+                            int choiceReports = -1;
+
+                            do {
+
+                                Menus.reportsMenu();
+                                inputReports = sc.nextLine();
+
+                                try {
+                                    choiceReports = Integer.parseInt(inputReports);
+                                } catch (NumberFormatException e) {
+                                    System.err.println("[ERROR] : There was a problem with parsing your input");
+                                    choiceReports = -1;
+                                }
+
+                                if (choiceReports == 1) {
+
+                                } else if (choiceReports == 2) {
+
+                                } else if (choiceReports == 3) {
+
+                                } else if (choiceReports == 4) {
+
+                                } else if (choiceReports == 5) {
+
+                                } else if (choiceReports == 6) {
+
+                                } else if (choiceReports == 7) {
+
+                                } else {
+                                    System.err.println("[ERROR] : Please enter your choice again");
+                                }
+                            } while (inputReports.compareTo("0") != 0);
                         } else {
                             System.err.println("[ERROR] : Please enter your choice again");
                         }
