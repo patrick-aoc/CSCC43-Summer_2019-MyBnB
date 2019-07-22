@@ -81,6 +81,9 @@ public class SearchManager {
             int queryAdded = 0;
             while(res.next()) {
                 // Get the latitude/longitude of the listing and convert them to radians
+
+                // LINES 85 TO 92 involve the use of the Haversine method of computing distances between
+                // 2 latitude/longitude points
                 double dLat = Math.toRadians(res.getBigDecimal(4).doubleValue() - latitude.doubleValue());
                 double dLong = Math.toRadians(res.getBigDecimal(5).doubleValue() - longitude.doubleValue());
                 double dist = Math.sin(dLat / 2) * Math.sin(dLat / 2)

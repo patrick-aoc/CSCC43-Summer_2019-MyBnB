@@ -151,8 +151,6 @@ public class MyBnBMain {
                                             if (deleted) {
                                                 break;
                                             }
-                                        } else {
-                                            System.err.println("[ERROR] : Please enter your choice again");
                                         }
                                     } while(inputHost.compareTo("0") != 0);
                                 }
@@ -195,8 +193,6 @@ public class MyBnBMain {
                                 } else if (choiceSearch == 5) {
                                     System.out.println("===============FULL SEARCH===============");
                                     SearchManager.searchWithFilters(conn, sc);
-                                } else {
-                                    System.err.println("[ERROR] : Please enter your choice again");
                                 }
                             } while (inputSearch.compareTo("0") != 0);
                         } else if (choiceBnB == 4) {
@@ -224,16 +220,19 @@ public class MyBnBMain {
                                     ReportManager.totalNumberOfListings(conn, sc);
                                 } else if (choiceReports == 3) {
                                     System.out.println("===============TOP HOSTS BASED ON LISTING COUNT===============");
+                                    ReportManager.topHosts(conn, sc);
                                 } else if (choiceReports == 4) {
-
+                                    System.out.println("===============LISTING PERCENTAGE PER HOST===============");
+                                    ReportManager.listingPercentage(conn, sc);
                                 } else if (choiceReports == 5) {
-
+                                    System.out.println("===============TOP RENTERS BASED ON BOOKING COUNT===============");
+                                    ReportManager.topRenters(conn, sc);
                                 } else if (choiceReports == 6) {
-
+                                    System.out.println("===============TOP USERS WITH MOST CANCELLATIONS===============");
+                                    ReportManager.topCancellations(conn, sc);
                                 } else if (choiceReports == 7) {
-
-                                } else {
-                                    System.err.println("[ERROR] : Please enter your choice again");
+                                    System.out.println("===============POPULAR PHRASES/WORDS PER LISTING===============");
+                                    ReportManager.popularPhrases(conn, sc);
                                 }
                             } while (inputReports.compareTo("0") != 0);
                         } else {
