@@ -513,6 +513,78 @@ public class ListingManager {
         return false;
     }
 
+    public static boolean addListingAvailability(Connection conn, Scanner reader, int hostSin) {
+        try {
+            System.out.print("Enter the ID of the listing: ");
+            String idList = reader.nextLine();
+            int listing = -1;
+            try {
+                listing = Integer.parseInt(idList);
+            } catch (NumberFormatException e) {
+                System.err.println("[ERROR] : Invalid listing was specified");
+                return false;
+            }
+
+            // Display the bookings associated with the listing (only for the given host sin)
+            String getListing = "SELECT * FROM Listings WHERE listing_id = " + listing + " AND sin_host = " + hostSin + "";
+            Statement st = conn.createStatement();
+            ResultSet res = st.executeQuery(getListing);
+
+            // If the specified listing is not associated with the account, then we end it
+            if(!res.next()) {
+                System.err.println("[ERROR] : The specified listing has no affiliation with your account");
+                return false;
+            }
+
+            System.out.print("Enter the dates that this listing will be available on (YYYY-MM-DD,price --> separate each entry by ';'): ");
+            String[] datesAndPrices = reader.nextLine().split(";");
+
+            // Check if each specified date and price is formatted correctly and is valid
+            List<String> dapList = Arrays.asList(datesAndPrices);
+            for(String dap : dapList) {
+                String[] datePrice =  dap.split(",");
+                List<String> datePriceList = Arrays.asList(datePrice);
+                if (!(datePriceList.get(0).matches("\\d{4}-\\d{2}-\\d{2}") && datePriceList.get(1).matches("^\\d{0,8}(\\.\\d{1,4})?$"))) {
+                    System.err.println("[ERROR] : Invalid date/price was specified");
+                    return false;
+                }
+            }
+
+            // Insert the listing's dates into the calendar table
+            for(String dap : dapList) {
+                String[] datePrice =  dap.split(",");
+                List<String> datePriceList = Arrays.asList(datePrice);
+
+                // Check if the date is already in the database
+                String checkExisting = "SELECT * FROM Calendar WHERE calendar_date = '" + datePriceList.get(0) +"' AND" +
+                        " listing_id = " + listing + " ";
+                ResultSet check = st.executeQuery(checkExisting);
+                if(check.next()) {
+                    System.out.println("[INFO] : Date already exists. Skipping this entry");
+                    continue;
+                }
+
+                String insertDatesAndPrices = "INSERT INTO Calendar (calendar_date, price, listing_id, status, sin_host)" +
+                        " VALUES(?, ?, ?, ?, ?)";
+                PreparedStatement pS = conn.prepareStatement(insertDatesAndPrices);
+                pS.setString(1, datePriceList.get(0));
+                pS.setDouble(2, Double.parseDouble(datePriceList.get(1)));
+                pS.setInt(3, listing);
+                pS.setBoolean(4, true);
+                pS.setInt(5, hostSin);
+                pS.execute();
+
+                System.out.println("[SUCCESS] : Date " + datePriceList.get(0) + " has been added with the listing ID " +
+                        listing);
+            }
+            return true;
+        } catch (SQLException e) {
+            System.err.println("[ERROR] : Unable to update the specified listing's availability");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static boolean removeListing(Connection conn, Scanner reader, int hostSin) {
         try {
             System.out.print("Enter the ID of the listing you wish to remove: ");

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 import database.DatabaseWorker;
+import database.ReportManager;
 import listings.CommentManager;
 import listings.Listing;
 import listings.ListingManager;
@@ -132,15 +133,19 @@ public class MyBnBMain {
                                             System.out.println("===============UPDATE LISTING AVAILABILITY===============");
                                             ListingManager.updateListingAvailability(conn, sc, user.getSin());
                                         } else if (choiceHost == 4) {
+                                            // TODO test this feature
+                                            System.out.println("===============ADD LISTING AVAILABILITY===============");
+                                            ListingManager.addListingAvailability(conn, sc, user.getSin());
+                                        } else if (choiceHost == 5) {
                                             System.out.println("===============REMOVE A LISTING===============");
                                             ListingManager.removeListing(conn, sc, user.getSin());
-                                        } else if (choiceHost == 5) {
+                                        } else if (choiceHost == 6) {
                                             System.out.println("===============CANCEL A BOOKING===============");
                                             ListingManager.cancelBooking(conn, sc, user.getSin());
-                                        } else if (choiceHost == 6) {
+                                        } else if (choiceHost == 7) {
                                             System.out.println("===============REVIEW A RENTER===============");
                                             CommentManager.reviewRenter(conn, sc, user.getSin());
-                                        } else if (choiceHost == 7) {
+                                        } else if (choiceHost == 8) {
                                             System.out.println("===============DELETE ACCOUNT===============");
                                             boolean deleted = AccountManager.deleteUser(conn, sc, user.getSin());
                                             if (deleted) {
@@ -212,11 +217,13 @@ public class MyBnBMain {
                                 }
 
                                 if (choiceReports == 1) {
-
+                                    System.out.println("===============TOTAL # OF BOOKINGS BY CITY===============");
+                                    ReportManager.totalNumberOfBookings(conn, sc);
                                 } else if (choiceReports == 2) {
-
+                                    System.out.println("===============TOTAL # OF LISTINGS BY LOCATION===============");
+                                    ReportManager.totalNumberOfListings(conn, sc);
                                 } else if (choiceReports == 3) {
-
+                                    System.out.println("===============TOP HOSTS BASED ON LISTING COUNT===============");
                                 } else if (choiceReports == 4) {
 
                                 } else if (choiceReports == 5) {

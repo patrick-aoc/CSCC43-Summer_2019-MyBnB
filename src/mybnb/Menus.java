@@ -36,10 +36,11 @@ public class Menus {
         System.out.println("1. Create a listing.");
         System.out.println("2. Update a listing's price.");
         System.out.println("3. Update a listing's availability.");
-        System.out.println("4. Remove a listing.");
-        System.out.println("5. Cancel a booking.");
-        System.out.println("6. Review a renter.");
-        System.out.println("7. Delete account.");
+        System.out.println("4. Add an extra availability date.");
+        System.out.println("5. Remove a listing.");
+        System.out.println("6. Cancel a booking.");
+        System.out.println("7. Review a renter.");
+        System.out.println("8. Delete account.");
         System.out.print("Choose one of the previous options [0-7]: ");
     }
 

@@ -243,7 +243,7 @@ public class SearchManager {
 
             if (startDate.matches("\\d{4}-\\d{2}-\\d{2}") && endDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
 
-                String getListings = "SELECT * FROM Calendar";
+                String getListings = "SELECT * FROM Calendar WHERE (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') ";
                 Statement st = conn.createStatement();
                 ResultSet res = st.executeQuery(getListings);
 
@@ -261,11 +261,8 @@ public class SearchManager {
                     Date start = format.parse(startDate);
                     Date end = format.parse(endDate);
 
-                    // If the date is within the range, add it to the query
-                    if(d.compareTo(start) >= 0 && d.compareTo(end) <= 0) {
-                        bigJoin = bigJoin + res.getInt(3) + " OR Listings.listing_id = ";
-                        queryAdded++;
-                    }
+                    bigJoin = bigJoin + res.getInt(3) + " OR Listings.listing_id = ";
+                    queryAdded++;
                 }
                 bigJoin = bigJoin.substring(0, bigJoin.length() - 26);
                 if (queryAdded != 0) {
