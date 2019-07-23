@@ -3,7 +3,7 @@ package mybnb;
 public class Menus {
 
     public static void initialMenu() {
-        System.out.println("=========MENU=========");
+        System.out.println("==================== MENU ====================");
         System.out.println("0. Exit.");
         System.out.println("1. Initialize Database. (First time setup)");
         System.out.println("2. Go to MyBnB.");
@@ -11,7 +11,7 @@ public class Menus {
     }
 
     public static void myBnBMenu() {
-        System.out.println("=========MYBNB=========");
+        System.out.println("==================== MYBNB ===================");
         System.out.println("0. Back.");
         System.out.println("1. Log in.");
         System.out.println("2. Create an account.");
@@ -21,7 +21,7 @@ public class Menus {
     }
 
     public static void renterMenu() {
-        System.out.println("=========RENTER=========");
+        System.out.println("=================== RENTER ===================");
         System.out.println("0. Logout.");
         System.out.println("1. Book a listing.");
         System.out.println("2. Cancel a booking.");
@@ -31,7 +31,7 @@ public class Menus {
     }
 
     public static void hostMenu() {
-        System.out.println("=========HOST=========");
+        System.out.println("==================== HOST ====================");
         System.out.println("0. Logout.");
         System.out.println("1. Create a listing.");
         System.out.println("2. Update a listing's price.");
@@ -45,7 +45,7 @@ public class Menus {
     }
 
     public static void queriesMenu() {
-        System.out.println("=========SEARCH=========");
+        System.out.println("=================== SEARCH ===================");
         System.out.println("0. Back.");
         System.out.println("1. Search by latitude/longitude.");
         System.out.println("2. Search by postal code.");
@@ -56,7 +56,7 @@ public class Menus {
     }
 
     public static void reportsMenu() {
-        System.out.println("=========REPORTS=========");
+        System.out.println("================== REPORTS ===================");
         System.out.println("0. Back.");
         System.out.println("1. Total number of bookings.");
         System.out.println("2. Total number of listings.");

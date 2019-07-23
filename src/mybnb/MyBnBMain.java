@@ -73,7 +73,7 @@ public class MyBnBMain {
                         User user = null;
 
                         if (choiceBnB == 1) {
-                            System.out.println("===============LOGIN===============");
+                            System.out.println("================== LOGIN ===================");
                             user = AccountManager.loginUser(conn, sc);
                             if (user != null) {
                                 if (user instanceof Renter) {
@@ -91,22 +91,20 @@ public class MyBnBMain {
                                         }
 
                                         if (choiceRenter == 1) {
-                                            System.out.println("===============BOOK A LISTING===============");
+                                            System.out.println("============ BOOK A LISTING =============");
                                             ListingManager.bookListing(conn, sc, user.getSin(), ((Renter) user).getCreditCardNumber());
                                         } else if (choiceRenter == 2) {
-                                            System.out.println("===============CANCEL A BOOKING===============");
+                                            System.out.println("=========== CANCEL A BOOKING ============");
                                             ListingManager.cancelBooking(conn, sc, user.getSin());
                                         } else if (choiceRenter == 3) {
-                                            System.out.println("===============REVIEW A HOST/LISTING===============");
+                                            System.out.println("========= REVIEW A HOST/LISTING =========");
                                             CommentManager.reviewHostListing(conn, sc, user.getSin());
                                         } else if (choiceRenter == 4) {
-                                            System.out.println("===============DELETE ACCOUNT===============");
+                                            System.out.println("============ DELETE ACCOUNT =============");
                                             boolean deleted = AccountManager.deleteUser(conn, sc, user.getSin());
                                             if (deleted) {
                                                 break;
                                             }
-                                        } else {
-                                            System.err.println("[ERROR] : Please enter your choice again");
                                         }
                                     } while(inputRenter.compareTo("0") != 0);
                                 } else {
@@ -124,29 +122,29 @@ public class MyBnBMain {
                                         }
 
                                         if (choiceHost == 1) {
-                                            System.out.println("===============CREATE A LISTING===============");
+                                            System.out.println("=========== CREATE A LISTING ============");
                                             ListingManager.createListing(conn, sc, user.getSin());
                                         } else if (choiceHost == 2) {
-                                            System.out.println("===============UPDATE LISTING PRICE===============");
+                                            System.out.println("========== UPDATE LISTING PRICE =========");
                                             ListingManager.updateListingPrice(conn, sc, user.getSin());
                                         } else if (choiceHost == 3) {
-                                            System.out.println("===============UPDATE LISTING AVAILABILITY===============");
+                                            System.out.println("====== UPDATE LISTING AVAILABILITY ======");
                                             ListingManager.updateListingAvailability(conn, sc, user.getSin());
                                         } else if (choiceHost == 4) {
                                             // TODO test this feature
-                                            System.out.println("===============ADD LISTING AVAILABILITY===============");
+                                            System.out.println("======== ADD LISTING AVAILABILITY ======");
                                             ListingManager.addListingAvailability(conn, sc, user.getSin());
                                         } else if (choiceHost == 5) {
-                                            System.out.println("===============REMOVE A LISTING===============");
+                                            System.out.println("=========== REMOVE A LISTING ===========");
                                             ListingManager.removeListing(conn, sc, user.getSin());
                                         } else if (choiceHost == 6) {
-                                            System.out.println("===============CANCEL A BOOKING===============");
+                                            System.out.println("=========== CANCEL A BOOKING ===========");
                                             ListingManager.cancelBooking(conn, sc, user.getSin());
                                         } else if (choiceHost == 7) {
-                                            System.out.println("===============REVIEW A RENTER===============");
+                                            System.out.println("============ REVIEW A RENTER ===========");
                                             CommentManager.reviewRenter(conn, sc, user.getSin());
                                         } else if (choiceHost == 8) {
-                                            System.out.println("===============DELETE ACCOUNT===============");
+                                            System.out.println("============ DELETE ACCOUNT ============");
                                             boolean deleted = AccountManager.deleteUser(conn, sc, user.getSin());
                                             if (deleted) {
                                                 break;
@@ -156,7 +154,7 @@ public class MyBnBMain {
                                 }
                             }
                         } else if (choiceBnB == 2) {
-                            System.out.println("===============USER ACCOUNT CREATION===============");
+                            System.out.println("============== USER ACCOUNT CREATION ==============");
                             user = AccountManager.createUser(conn, sc);
                             if (user != null) {
                                 System.out.println("[SUCCESS] : User has been successfully created");
@@ -179,19 +177,19 @@ public class MyBnBMain {
                                 }
 
                                 if (choiceSearch == 1) {
-                                    System.out.println("===============LATITUDE/LONGITUDE SEARCH===============");
+                                    System.out.println("========== LATITUDE/LONGITUDE SEARCH ===========");
                                     SearchManager.searchByLatLong(conn, sc);
                                 } else if (choiceSearch == 2) {
-                                    System.out.println("===============POSTAL CODE SEARCH===============");
+                                    System.out.println("============== POSTAL CODE SEARCH ==============");
                                     SearchManager.searchByPostalCode(conn, sc);
                                 } else if (choiceSearch == 3) {
-                                    System.out.println("===============ADDRESS SEARCH===============");
+                                    System.out.println("================ ADDRESS SEARCH ================");
                                     SearchManager.searchByAddress(conn, sc);
                                 } else if (choiceSearch == 4) {
-                                    System.out.println("===============DATE RANGE SEARCH===============");
+                                    System.out.println("=============== DATE RANGE SEARCH ==============");
                                     SearchManager.searchByDateRange(conn, sc);
                                 } else if (choiceSearch == 5) {
-                                    System.out.println("===============FULL SEARCH===============");
+                                    System.out.println("================== FULL SEARCH ==================");
                                     SearchManager.searchWithFilters(conn, sc);
                                 }
                             } while (inputSearch.compareTo("0") != 0);
@@ -213,37 +211,32 @@ public class MyBnBMain {
                                 }
 
                                 if (choiceReports == 1) {
-                                    System.out.println("===============TOTAL # OF BOOKINGS BY CITY===============");
+                                    System.out.println("============== TOTAL # OF BOOKINGS BY CITY ==============");
                                     ReportManager.totalNumberOfBookings(conn, sc);
                                 } else if (choiceReports == 2) {
-                                    System.out.println("===============TOTAL # OF LISTINGS BY LOCATION===============");
+                                    System.out.println("============ TOTAL # OF LISTINGS BY LOCATION ============");
                                     ReportManager.totalNumberOfListings(conn, sc);
                                 } else if (choiceReports == 3) {
-                                    System.out.println("===============TOP HOSTS BASED ON LISTING COUNT===============");
+                                    System.out.println("============ TOP HOSTS BASED ON LISTING COUNT ===========");
                                     ReportManager.topHosts(conn, sc);
                                 } else if (choiceReports == 4) {
-                                    System.out.println("===============LISTING PERCENTAGE PER HOST===============");
+                                    System.out.println("============== LISTING PERCENTAGE PER HOST ==============");
                                     ReportManager.listingPercentage(conn, sc);
                                 } else if (choiceReports == 5) {
-                                    System.out.println("===============TOP RENTERS BASED ON BOOKING COUNT===============");
+                                    System.out.println("=========== TOP RENTERS BASED ON BOOKING COUNT ==========");
                                     ReportManager.topRenters(conn, sc);
                                 } else if (choiceReports == 6) {
-                                    System.out.println("===============TOP USERS WITH MOST CANCELLATIONS===============");
+                                    System.out.println("=========== TOP USERS WITH MOST CANCELLATIONS ===========");
                                     ReportManager.topCancellations(conn, sc);
                                 } else if (choiceReports == 7) {
-                                    System.out.println("===============POPULAR PHRASES/WORDS PER LISTING===============");
+                                    System.out.println("=========== POPULAR PHRASES/WORDS PER LISTING ===========");
                                     ReportManager.popularPhrases(conn, sc);
                                 }
                             } while (inputReports.compareTo("0") != 0);
-                        } else {
-                            System.err.println("[ERROR] : Please enter your choice again");
                         }
                     } while (inputBnB.compareTo("0") != 0);
-                } else {
-                    System.err.println("[ERROR] : Please enter your choice again");
                 }
             } while (input.compareTo("0") != 0);
-
         } else {
             System.out.println("");
             System.out.println("***************************");

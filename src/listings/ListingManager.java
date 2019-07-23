@@ -29,6 +29,50 @@ public class ListingManager {
 
             System.out.print("Enter the all the amenities the listing will include (separate each amenity by ','): ");
             String[] amenities = reader.nextLine().split(",");
+            List<String> amList = Arrays.asList(amenities);
+
+            // -------------------------- HOST TOOLKIT - PRICE SUGGESTION --------------------------
+            double basePrice = 500.00;
+            if (listingType.equalsIgnoreCase("house")) {
+                basePrice = basePrice + 200.00;
+            } else if (listingType.equalsIgnoreCase("apartment")) {
+                basePrice = basePrice + 100.00;
+            } else if (listingType.equalsIgnoreCase("room")) {
+                basePrice = basePrice + 50.00;
+            } else {
+                basePrice = basePrice + 10.00;
+            }
+
+            for(int i = 0; i < amenities.length; i++) {
+                basePrice = basePrice + 50.00;
+            }
+
+            System.out.println(" ");
+            System.out.println("SUGGESTED DAILY RATE FOR YOUR LISTING: $" + basePrice);
+            System.out.println("This suggested price is based on the type of unit you own and the amenities associated with it.");
+
+            // -------------------------- HOST TOOLKIT - AMENITIES SUGGESTION --------------------------
+            String getAmenities = "SELECT COUNT(amenity_type), amenity_type " +
+                    "FROM Amenities GROUP BY amenity_type ORDER BY COUNT(amenity_type) DESC";
+            Statement st = conn.createStatement();
+            ResultSet res = st.executeQuery(getAmenities);
+
+            // Take the top 5 amenities and suggest those to the user
+            int amCount = 0;
+            String suggestedAm = "";
+            while(res.next() && amCount != 5) {
+                String currAmenity = res.getString(2);
+                if (amList.contains(currAmenity)) {
+                    continue;
+                }
+                suggestedAm = suggestedAm + currAmenity + " | ";
+                amCount++;
+            }
+
+            if (!suggestedAm.isEmpty()) {
+                System.out.println("Suggested Amenities for your Listing: " + suggestedAm);
+            }
+            System.out.println(" ");
 
             System.out.print("Enter the dates that this listing will be available on (YYYY-MM-DD,price --> separate each entry by ';'): ");
             String[] datesAndPrices = reader.nextLine().split(";");
@@ -66,7 +110,7 @@ public class ListingManager {
 
             // Insert the listing and its amenities into the amenities table
             // Get ID of the recently inserted row
-            Statement st = conn.createStatement();
+            st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT last_insert_id() AS last_id FROM Listings");
             rs.next();
             String lid = rs.getString("last_id");

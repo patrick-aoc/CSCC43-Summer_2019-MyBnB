@@ -306,10 +306,14 @@ public class ReportManager {
                 int lid = res.getInt(2);
                 String commentsPre = res.getString(3).toLowerCase().replaceAll("[^a-z ]", "");
 
+                // Iterate through each of the words in the comment
                 for(String word : commentsPre.split(" ")) {
                     if(word.length() <= 3) {
                         continue;
                     }
+
+                    // Add the word into the hash map if it does not already exist
+                    // If it already exists, just increment the word's counter
                     if (listingComments.get(lid) != null) {
                         if (listingComments.get(lid).get(word) != null) {
                             int v = listingComments.get(lid).get(word);

@@ -1,18 +1,13 @@
 package listings;
 
-import javax.xml.transform.Result;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SearchManager {
-
-    private static final String latRegex = "";
 
     public static boolean searchByLatLong(Connection conn, Scanner reader) {
         try {
@@ -23,6 +18,15 @@ public class SearchManager {
             BigDecimal latMax = new BigDecimal(90);
             BigDecimal longMin = new BigDecimal(-180);
             BigDecimal longMax = new BigDecimal(180);
+
+            System.out.print("Enter a starting date (YYYY-MM-DD) or leave this field blank: ");
+            String startDate = reader.nextLine();
+            String endDate = "";
+
+            if(!startDate.isEmpty()) {
+                System.out.print("Enter an ending date (YYYY-MM-DD): ");
+                endDate = reader.nextLine();
+            }
 
             // Ask for a latitude input and validate it
             System.out.print("Enter a latitude: ");
@@ -74,10 +78,23 @@ public class SearchManager {
             ResultSet res = st.executeQuery(getListings);
             double earthRad = 6371.01;
 
-            String bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
-                    "Listings.country, Listings.postal_code " +
-                    "FROM Listings, Calendar " +
-                    "WHERE Listings.listing_id = Calendar.listing_id AND (Listings.listing_id = ";
+            String bigJoin = "";
+
+            if (!(startDate.matches("\\d{4}-\\d{2}-\\d{2}") && endDate.matches("\\d{4}-\\d{2}-\\d{2}"))){
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (Listings.listing_id = ";
+            } else {
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND (Listings.listing_id = ";
+            }
+
             int queryAdded = 0;
             while(res.next()) {
                 // Get the latitude/longitude of the listing and convert them to radians
@@ -134,6 +151,15 @@ public class SearchManager {
 
     public static boolean searchByPostalCode(Connection conn, Scanner reader) {
         try {
+            System.out.print("Enter a starting date (YYYY-MM-DD) or leave this field blank: ");
+            String startDate = reader.nextLine();
+            String endDate = "";
+
+            if(!startDate.isEmpty()) {
+                System.out.print("Enter an ending date (YYYY-MM-DD): ");
+                endDate = reader.nextLine();
+            }
+
             // Ask for a postal code
             System.out.print("Enter a postal code: ");
             String postalCode = reader.nextLine();
@@ -142,10 +168,23 @@ public class SearchManager {
             Statement st = conn.createStatement();
             ResultSet res = st.executeQuery(getListings);
 
-            String bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
-                    "Listings.country, Listings.postal_code " +
-                    "FROM Listings, Calendar " +
-                    "WHERE Listings.listing_id = Calendar.listing_id AND (Listings.listing_id = ";
+            String bigJoin = "";
+
+            if (!(startDate.matches("\\d{4}-\\d{2}-\\d{2}") && endDate.matches("\\d{4}-\\d{2}-\\d{2}"))){
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (Listings.listing_id = ";
+            } else {
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND (Listings.listing_id = ";
+            }
+
             int queryAdded = 0;
             while(res.next()) {
                 String currPostalCode = res.getString(6);
@@ -181,6 +220,15 @@ public class SearchManager {
 
     public static boolean searchByAddress(Connection conn, Scanner reader) {
         try {
+            System.out.print("Enter a starting date (YYYY-MM-DD) or leave this field blank: ");
+            String startDate = reader.nextLine();
+            String endDate = "";
+
+            if(!startDate.isEmpty()) {
+                System.out.print("Enter an ending date (YYYY-MM-DD): ");
+                endDate = reader.nextLine();
+            }
+
             // Ask for a postal code
             System.out.print("Enter a postal code: ");
             String postalCode = reader.nextLine();
@@ -197,10 +245,22 @@ public class SearchManager {
             Statement st = conn.createStatement();
             ResultSet res = st.executeQuery(getListings);
 
-            String bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
-                    "Listings.country, Listings.postal_code " +
-                    "FROM Listings, Calendar " +
-                    "WHERE Listings.listing_id = Calendar.listing_id AND (Listings.listing_id = ";
+            String bigJoin = "";
+            if (!(startDate.matches("\\d{4}-\\d{2}-\\d{2}") && endDate.matches("\\d{4}-\\d{2}-\\d{2}"))){
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (Listings.listing_id = ";
+            } else {
+                bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
+                        "Listings.country, Listings.postal_code " +
+                        "FROM Listings, Calendar " +
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND (Listings.listing_id = ";
+            }
+
             int queryAdded = 0;
             while(res.next()) {
                 String currPostalCode = res.getString(6);
@@ -253,23 +313,9 @@ public class SearchManager {
                 String bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
                         "Listings.country, Listings.postal_code " +
                         "FROM Listings, Calendar " +
-                        "WHERE Listings.listing_id = Calendar.listing_id AND (Listings.listing_id = ";
-
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                int queryAdded = 0;
-                while(res.next()) {
-                    String currDate = res.getString(1);
-
-                    Date d = format.parse(currDate);
-                    Date start = format.parse(startDate);
-                    Date end = format.parse(endDate);
-
-                    bigJoin = bigJoin + res.getInt(3) + " OR Listings.listing_id = ";
-                    queryAdded++;
-                }
-                bigJoin = bigJoin.substring(0, bigJoin.length() - 26);
-                if (queryAdded != 0) {
-                    res = st.executeQuery(bigJoin + ")");
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') ";
+                    res = st.executeQuery(bigJoin);
 
                     System.out.println("-----LISTINGS/BOOKING DATES IN YOUR GIVEN RANGE-----");
                     while (res.next()) {
@@ -280,7 +326,6 @@ public class SearchManager {
                         System.out.println("Listing Postal Code: " + res.getString(6));
                         System.out.println("Listing Date: " + res.getString(3));
                         System.out.println("-----------------------------------------------");
-                    }
                 }
                 return true;
 
@@ -289,9 +334,6 @@ public class SearchManager {
                 return false;
             }
         } catch (SQLException e) {
-            System.err.println("[ERROR] : There was a problem with your input");
-            e.printStackTrace();
-        } catch (ParseException e) {
             System.err.println("[ERROR] : There was a problem with your input");
             e.printStackTrace();
         }
@@ -326,7 +368,9 @@ public class SearchManager {
                 String bigJoin = "SELECT Listings.listing_id, Calendar.price, Calendar.calendar_date, Listings.city, " +
                         "Listings.country, Listings.postal_code " +
                         "FROM Listings, Calendar " +
-                        "WHERE Listings.listing_id = Calendar.listing_id AND (Listings.listing_id = ";
+                        "WHERE Listings.listing_id = Calendar.listing_id " +
+                        "AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND (Listings.listing_id = ";
 
                 String getDates = "SELECT * FROM Calendar";
                 Statement st = conn.createStatement();
@@ -335,19 +379,12 @@ public class SearchManager {
                 String getListings = "SELECT * FROM Listings NATURAL JOIN Amenities";
                 ResultSet resL = st.executeQuery(getListings);
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 int queryAdded = 0;
                 while(resL.next()) {
                     while(resD.next()) {
-                        String currDate = resD.getString(1);
-
-                        Date d = format.parse(currDate);
-                        Date start = format.parse(startDate);
-                        Date end = format.parse(endDate);
 
                         // If the date is within the range, matches the postal code, and is within the price range
-                        if(d.compareTo(start) >= 0 && d.compareTo(end) <= 0 &&
-                                resL.getString(6).equalsIgnoreCase(postalCode) &&
+                        if(resL.getString(6).equalsIgnoreCase(postalCode) &&
                                 resD.getDouble(2) >= Double.parseDouble(minPrice) &&
                                 resD.getDouble(2) <= Double.parseDouble(maxPrice) &&
                                 amenities.contains(resL.getString(9)) &&
@@ -378,9 +415,6 @@ public class SearchManager {
                 return false;
             }
         } catch (SQLException e) {
-            System.err.println("[ERROR] : There was a problem with your input");
-            e.printStackTrace();
-        } catch (ParseException e) {
             System.err.println("[ERROR] : There was a problem with your input");
             e.printStackTrace();
         }
