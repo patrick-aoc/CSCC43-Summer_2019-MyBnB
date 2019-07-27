@@ -52,7 +52,8 @@ public class Menus {
         System.out.println("3. Search by address.");
         System.out.println("4. Search by date range.");
         System.out.println("5. Search by multiple filters.");
-        System.out.print("Choose one of the previous options [0-5]: ");
+        System.out.println("6. Search by multiple optional filters.");
+        System.out.print("Choose one of the previous options [0-6]: ");
     }
 
     public static void reportsMenu() {

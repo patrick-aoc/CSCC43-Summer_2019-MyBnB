@@ -190,7 +190,9 @@ public class MyBnBMain {
                                     SearchManager.searchByDateRange(conn, sc);
                                 } else if (choiceSearch == 5) {
                                     System.out.println("================== FULL SEARCH ==================");
-//                                    SearchManager.searchWithFilters(conn, sc);
+                                    SearchManager.searchWithFilters(conn, sc);
+                                } else if (choiceSearch == 6) {
+                                    System.out.println("======= FULL SEARCH WITH FILTER SELECTION =======");
                                     SearchManager.searchWithFiltersV2(conn, sc);
                                 }
                             } while (inputSearch.compareTo("0") != 0);
