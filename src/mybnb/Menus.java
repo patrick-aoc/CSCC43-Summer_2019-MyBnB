@@ -6,8 +6,9 @@ public class Menus {
         System.out.println("==================== MENU ====================");
         System.out.println("0. Exit.");
         System.out.println("1. Initialize Database. (First time setup)");
-        System.out.println("2. Go to MyBnB.");
-        System.out.print("Choose one of the previous options [0-2]: ");
+        System.out.println("2. Load sample data. (Run once after database initialization)");
+        System.out.println("3. Go to MyBnB.");
+        System.out.print("Choose one of the previous options [0-3]: ");
     }
 
     public static void myBnBMenu() {

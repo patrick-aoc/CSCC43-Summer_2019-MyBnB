@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -127,7 +128,6 @@ public class DatabaseWorker {
                     "FOREIGN KEY ( listing_id ) REFERENCES Listings( listing_id ) ON DELETE CASCADE)";
             st.executeUpdate(sql);
 
-            // TODO ADD DATE FOR REVIEWS
             // Create the Reviews table and check to make sure the rating is a valid number and the reviewer is not
             // reviewing themselves
             sql = "CREATE TABLE IF NOT EXISTS UserReviews " +
@@ -144,7 +144,6 @@ public class DatabaseWorker {
                     ")";
             st.executeUpdate(sql);
 
-            // TODO ADD DATE FOR REVIEWS
             sql = "CREATE TABLE IF NOT EXISTS ListingReviews " +
                     "(creator_id INT NOT NULL, " +
                     "target_listing_id INT, " +
@@ -152,7 +151,6 @@ public class DatabaseWorker {
                     "rating INT NOT NULL, " +
                     "review_id INT NOT NULL AUTO_INCREMENT, " +
                     "PRIMARY KEY ( review_id ), " +
-                    "FOREIGN KEY ( creator_id ) REFERENCES Users( sin ) ON DELETE CASCADE, " +
                     "FOREIGN KEY ( target_listing_id ) REFERENCES Listings( listing_id ) ON DELETE CASCADE, " +
                     "CHECK (rating > 0 AND rating < 6)," +
                     "CHECK (creator_id <> target_listing_id)" +
@@ -169,6 +167,39 @@ public class DatabaseWorker {
             System.out.println("[SUCCESS] : Database has been successfully initialized");
         } catch (SQLException e) {
             System.err.println("[ERROR] Unable to add the specified tables");
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadSampleData(Connection conn) {
+        try {
+            Statement st = conn.createStatement();
+            String insertUsers = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Users.csv" + "' INTO TABLE Users FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertUsers);
+
+            String insertRenters = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Renters.csv" + "' INTO TABLE Renters FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertRenters);
+
+            String insertHosts = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Hosts.csv" +
+                    "' INTO TABLE Hosts FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertHosts);
+
+            String insertListings = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Listings.csv" +
+                    "' INTO TABLE Listings FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertListings);
+
+            String insertCalendar = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Calendar.csv" +
+                    "' INTO TABLE Calendar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'"  + " (calendar_date, price, listing_id, status, @vsin_renter, sin_host) " +
+                    " SET sin_renter = nullif(@vsin_renter, 'NULL')";
+            st.executeUpdate(insertCalendar);
+
+            String insertAmenities = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Amenities.csv" +
+                    "' INTO TABLE Amenities FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertAmenities);
+
+            System.out.println("[SUCCESS] : The data files have been successfully loaded into the database");
+        } catch(SQLException e) {
+            System.err.println("[ERROR] Unable to load the sample data into the tables");
             e.printStackTrace();
         }
     }

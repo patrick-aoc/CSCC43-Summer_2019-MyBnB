@@ -101,37 +101,37 @@ public class ReportManager {
             String topHosts = "SELECT COUNT(Listings.listing_id), Users.full_name, country " +
                             "FROM Listings, Users " +
                             "WHERE Listings.sin_host = Users.sin " +
-                            "GROUP BY country, sin ORDER BY COUNT(Listings.listing_id) DESC";
+                            "GROUP BY country, sin ORDER BY country, COUNT(Listings.listing_id) DESC";
             ResultSet res = st.executeQuery(topHosts);
 
-            System.out.println("-----TOP HOSTS PER COUNTRY-----");
+            System.out.println("--------------- TOP HOSTS PER COUNTRY ---------------");
             String prevCountry = "";
             while(res.next()) {
                 String currCountry = res.getString(3);
                 if(!prevCountry.equalsIgnoreCase(currCountry)) {
-                    System.out.println("------" + currCountry + "------");
+                    System.out.println("----------- " + currCountry + " -----------");
                 }
                 System.out.println("Name: " + res.getString(2));
                 System.out.println("Count: " + res.getInt(1));
-                System.out.println("---");
+                System.out.println("------");
                 prevCountry = currCountry;
             }
 
             String topHostsCity = "SELECT COUNT(Listings.listing_id), Users.full_name, city " +
                     "FROM Listings, Users " +
                     "WHERE Listings.sin_host = Users.sin " +
-                    "GROUP BY city, sin ORDER BY COUNT(Listings.listing_id) DESC";
+                    "GROUP BY city, sin ORDER BY city, COUNT(Listings.listing_id) DESC";
             res = st.executeQuery(topHostsCity);
-            System.out.println("-----TOP HOSTS PER CITY-----");
+            System.out.println("--------------- TOP HOSTS PER CITY ---------------");
             String prevCity = "";
             while(res.next()) {
                 String currCity = res.getString(3);
                 if(!prevCity.equalsIgnoreCase(currCity)) {
-                    System.out.println("------" + currCity + "------");
+                    System.out.println("----------- " + currCity +  "-----------");
                 }
                 System.out.println("Name: " + res.getString(2));
                 System.out.println("Count: " + res.getInt(1));
-                System.out.println("---");
+                System.out.println("------");
                 prevCity = currCity;
             }
             return true;
@@ -295,7 +295,7 @@ public class ReportManager {
         return false;
     }
 
-    public static boolean popularPhrases(Connection conn, Scanner reader) {
+    public static boolean popularPhrases(Connection conn) {
         try {
             String phraseQuery = "SELECT * FROM ListingReviews";
             Statement st = conn.createStatement();
@@ -307,8 +307,8 @@ public class ReportManager {
                 String commentsPre = res.getString(3).toLowerCase().replaceAll("[^a-z ]", "");
 
                 // Iterate through each of the words in the comment
-                for(String word : commentsPre.split(" ")) {
-                    if(word.length() <= 3) {
+                for(String word : commentsPre.split("\\p{Punct}]+")) {
+                    if(word.length() <= 4) {
                         continue;
                     }
 

@@ -225,9 +225,6 @@ public class ListingManager {
                                 "' AND listing_id = " + Integer.parseInt(listingID) +" ";
                         res = st.executeQuery(checkHistory);
 
-                        System.out.println(res.next());
-                        System.out.println(checkHistory);
-                        res = st.executeQuery(checkHistory);
                         if (res.next()) {
                             String updateHistory = "UPDATE History SET action = 'booked', action_date = '" + cD + "' WHERE " +
                                     "listing_id = " + Integer.parseInt(listingID) + " AND sin_renter = " + renterSin +

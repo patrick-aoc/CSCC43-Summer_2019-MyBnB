@@ -53,7 +53,7 @@ public class MyBnBMain {
 
                 if (choice == 1) {
                     DatabaseWorker.createTables(conn);
-                } else if (choice == 2) {
+                } else if (choice == 3) {
 
                     // Menu in which the user is choosing between logging in or creating an account
                     String inputBnB = "";
@@ -233,11 +233,13 @@ public class MyBnBMain {
                                     ReportManager.topCancellations(conn, sc);
                                 } else if (choiceReports == 7) {
                                     System.out.println("=========== POPULAR PHRASES/WORDS PER LISTING ===========");
-                                    ReportManager.popularPhrases(conn, sc);
+                                    ReportManager.popularPhrases(conn);
                                 }
                             } while (inputReports.compareTo("0") != 0);
                         }
                     } while (inputBnB.compareTo("0") != 0);
+                } else if (choice == 2) {
+                    DatabaseWorker.loadSampleData(conn);
                 }
             } while (input.compareTo("0") != 0);
         } else {
