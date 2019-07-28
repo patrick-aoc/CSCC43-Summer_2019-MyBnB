@@ -94,12 +94,16 @@ public class CommentManager {
             }
 
             HashMap<String, Integer> hosts = new HashMap<String, Integer>();
+            String currHost = "";
             for(Integer hostSin : hostSins) {
                 String getHost = "SELECT full_name FROM Users WHERE sin = " + hostSin + " ";
                 res = st.executeQuery(getHost);
                 if(res.next()) {
                     hosts.put(res.getString(1), hostSin);
-                    System.out.println("Host: " + res.getString(1));
+                    if(!currHost.equalsIgnoreCase(res.getString(1))) {
+                        System.out.println("Host: " + res.getString(1));
+                        currHost = res.getString(1);
+                    }
                 }
             }
 

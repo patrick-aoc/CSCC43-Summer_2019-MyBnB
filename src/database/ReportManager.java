@@ -309,15 +309,14 @@ public class ReportManager {
             HashMap<Integer, HashMap<String, Integer>> listingComments = new HashMap<>();
             while(res.next()) {
                 int lid = res.getInt(2);
-                String commentsPre = res.getString(3).toLowerCase().replaceAll("[^a-z ]", "");
-
+                String commentsPre = res.getString(3).toLowerCase();
                 // Iterate through each of the words in the comment
-                for(String word : commentsPre.split("\\p{Punct}]+")) {
+                for(String word : commentsPre.split("[\\p{Punct}]\\s+")) {
                     if(word.length() <= 4) {
                         continue;
                     }
 
-                    // Add the word into the hash map if it does not already exist
+                    // Add the phrase into the hash map if it does not already exist
                     // If it already exists, just increment the word's counter
                     if (listingComments.get(lid) != null) {
                         if (listingComments.get(lid).get(word) != null) {
@@ -332,20 +331,24 @@ public class ReportManager {
                         listingComments.put(lid, newMap);
                     }
                 }
+            }
 
-                Iterator hmIterator = listingComments.entrySet().iterator();
-                while(hmIterator.hasNext()) {
-                    Map.Entry pair = (Map.Entry)hmIterator.next();
-                    System.out.println("----- LISTING " + pair.getKey() + " -----" );
-                    Iterator hmIterator2 = ((Map)pair.getValue()).entrySet().iterator();
-                    while(hmIterator2.hasNext()) {
-                        pair = (Map.Entry)hmIterator2.next();
-                        System.out.println(pair.getKey() + " : " + pair.getValue() +  " occurrences");
-                        System.out.println("------");
-                        hmIterator2.remove();
-                    }
-                    hmIterator.remove();
+            Integer prevListing = -1;
+            Iterator hmIterator = listingComments.entrySet().iterator();
+            while(hmIterator.hasNext()) {
+                Map.Entry pair = (Map.Entry)hmIterator.next();
+                if(prevListing != pair.getKey()) {
+                    System.out.println("----- LISTING " + pair.getKey() + " -----");
+                    prevListing = (Integer) pair.getKey();
                 }
+                Iterator hmIterator2 = ((Map)pair.getValue()).entrySet().iterator();
+                while(hmIterator2.hasNext()) {
+                    pair = (Map.Entry)hmIterator2.next();
+                    System.out.println(pair.getKey() + " : " + pair.getValue() +  " occurrences");
+                    System.out.println("------");
+                    hmIterator2.remove();
+                }
+                hmIterator.remove();
             }
             return true;
         } catch(SQLException e) {
