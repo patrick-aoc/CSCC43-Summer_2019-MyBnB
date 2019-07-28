@@ -21,6 +21,7 @@ public class ReportManager {
                 String city = "SELECT COUNT(Listings.listing_id), Listings.city" +
                         " FROM Listings NATURAL JOIN Calendar " +
                         "WHERE (Calendar.calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND status = false " +
                         "GROUP BY Listings.city";
                 Statement st = conn.createStatement();
                 ResultSet res = st.executeQuery(city);
@@ -28,17 +29,18 @@ public class ReportManager {
                 String postal = "SELECT COUNT(Listings.listing_id), Listings.postal_code" +
                         " FROM Listings NATURAL JOIN Calendar " +
                         "WHERE (Calendar.calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
+                        "AND status = false " +
                         "GROUP BY Listings.postal_code";
                 ResultSet res2 = st.executeQuery(postal);
 
-                System.out.println("------------BOOKING COUNTS BY CITY------------");
+                System.out.println("------------ BOOKING COUNTS BY CITY ------------");
                 while(res.next()) {
                     System.out.println("City: " + res.getString(2));
                     System.out.println("Count: " + res.getInt(1));
                     System.out.println("-------------------------------------------");
                 }
 
-                System.out.println("-------------BOOKING COUNTS BY POSTAL CODE-------------");
+                System.out.println("------------- BOOKING COUNTS BY POSTAL CODE -------------");
                 while(res2.next()) {
                     System.out.println("Postal Code: " + res2.getString(2));
                     System.out.println("Count: " + res2.getInt(1));
@@ -64,14 +66,14 @@ public class ReportManager {
             ResultSet r2 = st.executeQuery(countryCityQ);
             ResultSet r3 = st.executeQuery(countryCityPostalQ);
 
-            System.out.println("-----LISTINGS BY COUNTRY-----");
+            System.out.println("----- LISTINGS BY COUNTRY -----");
             while(r1.next()) {
                 System.out.println("Country: " + r1.getString(2));
                 System.out.println("Count: " + r1.getInt(1));
                 System.out.println("--------------------------");
             }
 
-            System.out.println("-----LISTINGS BY COUNTRY/CITY-----");
+            System.out.println("----- LISTINGS BY COUNTRY/CITY -----");
             while(r2.next()) {
                 System.out.println("Country: " + r2.getString(2));
                 System.out.println("City: " + r2.getString(3));
@@ -79,7 +81,7 @@ public class ReportManager {
                 System.out.println("--------------------------");
             }
 
-            System.out.println("-----LISTINGS BY COUNTRY/CITY/POSTAL CODE-----");
+            System.out.println("----- LISTINGS BY COUNTRY/CITY/POSTAL CODE -----");
             while(r3.next()) {
                 System.out.println("Country: " + r3.getString(2));
                 System.out.println("City: " + r3.getString(3));
@@ -127,7 +129,7 @@ public class ReportManager {
             while(res.next()) {
                 String currCity = res.getString(3);
                 if(!prevCity.equalsIgnoreCase(currCity)) {
-                    System.out.println("----------- " + currCity +  "-----------");
+                    System.out.println("----------- " + currCity +  " -----------");
                 }
                 System.out.println("Name: " + res.getString(2));
                 System.out.println("Count: " + res.getInt(1));
@@ -166,7 +168,7 @@ public class ReportManager {
                     "GROUP BY country, sin ORDER BY COUNT(Listings.listing_id) DESC";
             ResultSet res1 = st.executeQuery(topHosts);
 
-            System.out.println("=====USERS PER COUNTRY THAT GO OVER THE 10%=====");
+            System.out.println("===== USERS PER COUNTRY THAT GO OVER THE 10% =====");
             while(res1.next()) {
                 int listingCount = res1.getInt(1);
                 double listingAmt = ((double) listingCount) / countries.get(res1.getString(3));
@@ -183,7 +185,7 @@ public class ReportManager {
                     "WHERE Listings.sin_host = Users.sin " +
                     "GROUP BY city, sin ORDER BY COUNT(Listings.listing_id) DESC";
             ResultSet res2 = st.executeQuery(topHostsCity);
-            System.out.println("=====USERS PER CITY THAT GO OVER THE 10%=====");
+            System.out.println("===== USERS PER CITY THAT GO OVER THE 10% =====");
             while(res2.next()) {
                 int listingCount = res2.getInt(1);
                 double listingAmt = ((double) listingCount) / cities.get(res2.getString(3));
@@ -217,7 +219,7 @@ public class ReportManager {
                 String timeQ = "SELECT COUNT(listing_id), full_name " +
                         " FROM Calendar, Users " +
                         "WHERE sin_renter = sin AND (calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
-                        "GROUP BY sin_renter";
+                        "GROUP BY sin_renter ORDER BY COUNT(listing_id) DESC";
                 ResultSet res1 = st.executeQuery(timeQ);
 
                 System.out.println("==== TOP RENTERS BETWEEN " + startDate + " AND " + endDate + " =====");
@@ -230,7 +232,7 @@ public class ReportManager {
                 String timeCityQ = "SELECT COUNT(c.listing_id), l.city, u.full_name " +
                         "FROM Calendar c, Users u, Listings l " +
                         "WHERE c.sin_renter = u.sin AND l.listing_id = c.listing_id AND (c.calendar_date BETWEEN '" + startDate + "' AND '" + endDate + "') " +
-                        "GROUP BY l.city, u.full_name";
+                        "GROUP BY l.city, u.full_name ORDER BY l.city, u.full_name, COUNT(listing_id) DESC";
                 ResultSet res2 = st.executeQuery(timeCityQ);
 
                 System.out.println("==== TOP RENTERS BETWEEN " + startDate + " AND " + endDate + " BY CITY =====");
@@ -246,6 +248,7 @@ public class ReportManager {
                     System.out.println("Name: " + res2.getString(3));
                     System.out.println("Count: " + res2.getInt(1));
                     System.out.println("---");
+                    prevCity = currCity;
                 }
                 return true;
             }
@@ -270,7 +273,7 @@ public class ReportManager {
                 String nameQuery = "SELECT full_name FROM Users WHERE sin = " +  maxR.getInt(2);
                 ResultSet n = st.executeQuery(nameQuery);
                 if (n.next()) {
-                    System.out.println("-----RENTER WITH THE MOST CANCELLATIONS-----");
+                    System.out.println("----- RENTER WITH THE MOST CANCELLATIONS -----");
                     System.out.println("Name: " + n.getString(1));
                     System.out.println("Cancellation Count: " + maxR.getInt(1));
                     System.out.println("-------");
@@ -281,7 +284,7 @@ public class ReportManager {
                 String nameQuery = "SELECT full_name FROM Users WHERE sin = " +  maxH.getInt(2);
                 ResultSet n = st.executeQuery(nameQuery);
                 if(n.next()) {
-                    System.out.println("-----HOST WITH THE MOST CANCELLATIONS-----");
+                    System.out.println("----- HOST WITH THE MOST CANCELLATIONS -----");
                     System.out.println("Name: " + n.getString(1));
                     System.out.println("Cancellation Count: " + maxH.getInt(1));
                     System.out.println("-------");
@@ -333,7 +336,7 @@ public class ReportManager {
                 Iterator hmIterator = listingComments.entrySet().iterator();
                 while(hmIterator.hasNext()) {
                     Map.Entry pair = (Map.Entry)hmIterator.next();
-                    System.out.println("-----LISTING " + pair.getKey() + "-----" );
+                    System.out.println("----- LISTING " + pair.getKey() + " -----" );
                     Iterator hmIterator2 = ((Map)pair.getValue()).entrySet().iterator();
                     while(hmIterator2.hasNext()) {
                         pair = (Map.Entry)hmIterator2.next();

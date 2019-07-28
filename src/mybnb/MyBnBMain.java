@@ -43,7 +43,7 @@ public class MyBnBMain {
                     choice = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
                     System.err.println("[ERROR] : There was a problem with parsing your input");
-                    choice = -1;
+                    continue;
                 }
 
                 if (choice == 1) {
@@ -63,6 +63,7 @@ public class MyBnBMain {
                             choiceBnB = Integer.parseInt(inputBnB);
                         } catch (NumberFormatException e) {
                             System.err.println("[ERROR] : There was a problem with parsing your input");
+                            continue;
                         }
 
                         User user = null;
@@ -82,7 +83,7 @@ public class MyBnBMain {
                                             choiceRenter = Integer.parseInt(inputRenter);
                                         } catch (NumberFormatException e) {
                                             System.err.println("[ERROR] : There was a problem with parsing your input");
-                                            choiceRenter = -1;
+                                            continue;
                                         }
 
                                         if (choiceRenter == 1) {
@@ -113,7 +114,7 @@ public class MyBnBMain {
                                             choiceHost = Integer.parseInt(inputHost);
                                         } catch (NumberFormatException e) {
                                             System.err.println("[ERROR] : There was a problem with parsing your input");
-                                            choiceHost = -1;
+                                            continue;
                                         }
 
                                         if (choiceHost == 1) {
@@ -168,7 +169,7 @@ public class MyBnBMain {
                                     choiceSearch = Integer.parseInt(inputSearch);
                                 } catch (NumberFormatException e) {
                                     System.err.println("[ERROR] : There was a problem with parsing your input");
-                                    choiceSearch = -1;
+                                    continue;
                                 }
 
                                 if (choiceSearch == 1) {
@@ -205,7 +206,7 @@ public class MyBnBMain {
                                     choiceReports = Integer.parseInt(inputReports);
                                 } catch (NumberFormatException e) {
                                     System.err.println("[ERROR] : There was a problem with parsing your input");
-                                    choiceReports = -1;
+                                    continue;
                                 }
 
                                 if (choiceReports == 1) {

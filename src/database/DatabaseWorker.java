@@ -200,6 +200,10 @@ public class DatabaseWorker {
                     "' INTO TABLE Amenities FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
             st.executeUpdate(insertAmenities);
 
+            String insertHistory = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - History.csv" +
+                    "' INTO TABLE History FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            st.executeUpdate(insertHistory);
+
             System.out.println("[SUCCESS] : The data files have been successfully loaded into the database");
         } catch(SQLException e) {
             System.err.println("[ERROR] Unable to load the sample data into the tables");
