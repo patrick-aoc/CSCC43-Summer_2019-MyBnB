@@ -1,21 +1,16 @@
 package mybnb;
 
-import java.math.BigInteger;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Scanner;
 
 import database.DatabaseWorker;
 import database.ReportManager;
 import listings.CommentManager;
-import listings.Listing;
 import listings.ListingManager;
 import listings.SearchManager;
 import users.AccountManager;
 import users.Renter;
 import users.User;
-import users.Host;
 
 public class MyBnBMain {
 
