@@ -42,7 +42,7 @@ public class Menus {
         System.out.println("6. Cancel a booking.");
         System.out.println("7. Review a renter.");
         System.out.println("8. Delete account.");
-        System.out.print("Choose one of the previous options [0-7]: ");
+        System.out.print("Choose one of the previous options [0-8]: ");
     }
 
     public static void queriesMenu() {

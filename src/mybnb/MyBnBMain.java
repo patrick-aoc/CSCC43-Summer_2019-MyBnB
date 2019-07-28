@@ -218,19 +218,19 @@ public class MyBnBMain {
                                     ReportManager.totalNumberOfBookings(conn, sc);
                                 } else if (choiceReports == 2) {
                                     System.out.println("============ TOTAL # OF LISTINGS BY LOCATION ============");
-                                    ReportManager.totalNumberOfListings(conn, sc);
+                                    ReportManager.totalNumberOfListings(conn);
                                 } else if (choiceReports == 3) {
                                     System.out.println("============ TOP HOSTS BASED ON LISTING COUNT ===========");
-                                    ReportManager.topHosts(conn, sc);
+                                    ReportManager.topHosts(conn);
                                 } else if (choiceReports == 4) {
                                     System.out.println("============== LISTING PERCENTAGE PER HOST ==============");
-                                    ReportManager.listingPercentage(conn, sc);
+                                    ReportManager.listingPercentage(conn);
                                 } else if (choiceReports == 5) {
                                     System.out.println("=========== TOP RENTERS BASED ON BOOKING COUNT ==========");
                                     ReportManager.topRenters(conn, sc);
                                 } else if (choiceReports == 6) {
                                     System.out.println("=========== TOP USERS WITH MOST CANCELLATIONS ===========");
-                                    ReportManager.topCancellations(conn, sc);
+                                    ReportManager.topCancellations(conn);
                                 } else if (choiceReports == 7) {
                                     System.out.println("=========== POPULAR PHRASES/WORDS PER LISTING ===========");
                                     ReportManager.popularPhrases(conn);

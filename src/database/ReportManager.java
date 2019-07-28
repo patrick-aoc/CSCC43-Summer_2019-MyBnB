@@ -53,7 +53,7 @@ public class ReportManager {
         return false;
     }
 
-    public static boolean totalNumberOfListings(Connection conn, Scanner reader) {
+    public static boolean totalNumberOfListings(Connection conn) {
         try {
             String countryQ = "SELECT COUNT(listing_id), country FROM Listings GROUP BY country";
             String countryCityQ = "SELECT COUNT(listing_id), country, city FROM Listings GROUP BY country, city";
@@ -95,7 +95,7 @@ public class ReportManager {
         return false;
     }
 
-    public static boolean topHosts(Connection conn, Scanner reader) {
+    public static boolean topHosts(Connection conn) {
         try {
             Statement st = conn.createStatement();
             String topHosts = "SELECT COUNT(Listings.listing_id), Users.full_name, country " +
@@ -142,7 +142,7 @@ public class ReportManager {
         return false;
     }
 
-    public static boolean listingPercentage(Connection conn, Scanner reader) {
+    public static boolean listingPercentage(Connection conn) {
         try {
             Statement st = conn.createStatement();
             String country = "SELECT COUNT(listing_id), country FROM Listings GROUP BY country";
@@ -220,7 +220,7 @@ public class ReportManager {
                         "GROUP BY sin_renter";
                 ResultSet res1 = st.executeQuery(timeQ);
 
-                System.out.println("====TOP RENTERS BETWEEN " + startDate + " AND " + endDate + "=====");
+                System.out.println("==== TOP RENTERS BETWEEN " + startDate + " AND " + endDate + " =====");
                 while(res1.next()) {
                     System.out.println("Name: " + res1.getString(2));
                     System.out.println("Number of Bookings: " + res1.getInt(1));
@@ -233,15 +233,15 @@ public class ReportManager {
                         "GROUP BY l.city, u.full_name";
                 ResultSet res2 = st.executeQuery(timeCityQ);
 
-                System.out.println("====TOP RENTERS BETWEEN " + startDate + " AND " + endDate + " BY CITY=====");
+                System.out.println("==== TOP RENTERS BETWEEN " + startDate + " AND " + endDate + " BY CITY =====");
                 String prevCity = "";
                 while(res2.next()) {
-                    String currCity = res2.getString(2);
-                    if(!currCity.equalsIgnoreCase(prevCity)) {
-                        System.out.println("------" + currCity + "------");
-                    }
                     if (res2.getInt(1) < 2) {
                         continue;
+                    }
+                    String currCity = res2.getString(2);
+                    if(!currCity.equalsIgnoreCase(prevCity)) {
+                        System.out.println("------ " + currCity + " ------");
                     }
                     System.out.println("Name: " + res2.getString(3));
                     System.out.println("Count: " + res2.getInt(1));
@@ -258,7 +258,7 @@ public class ReportManager {
         return false;
     }
 
-    public static boolean topCancellations(Connection conn, Scanner reader) {
+    public static boolean topCancellations(Connection conn) {
         try {
             Statement st = conn.createStatement();
             String renters = "SELECT count, sin FROM Cancellations, Renters WHERE canceller_sin = Renters.sin ORDER BY count DESC";
@@ -291,6 +291,8 @@ public class ReportManager {
         } catch (SQLException e) {
             System.err.println("[ERROR] : Unable to get the report");
             e.printStackTrace();
+        } catch (StringIndexOutOfBoundsException e) {
+            System.err.println("[ERROR] : Unable to get the report");
         }
         return false;
     }

@@ -174,10 +174,12 @@ public class DatabaseWorker {
     public static void loadSampleData(Connection conn) {
         try {
             Statement st = conn.createStatement();
-            String insertUsers = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Users.csv" + "' INTO TABLE Users FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            String insertUsers = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Users.csv" +
+                    "' INTO TABLE Users FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
             st.executeUpdate(insertUsers);
 
-            String insertRenters = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Renters.csv" + "' INTO TABLE Renters FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
+            String insertRenters = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Renters.csv" +
+                    "' INTO TABLE Renters FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'";
             st.executeUpdate(insertRenters);
 
             String insertHosts = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Hosts.csv" +
@@ -189,7 +191,8 @@ public class DatabaseWorker {
             st.executeUpdate(insertListings);
 
             String insertCalendar = "LOAD DATA LOCAL INFILE '" + "C://Users/patri/Documents/CSCC43/MyBnB/data/mybnb - Calendar.csv" +
-                    "' INTO TABLE Calendar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'"  + " (calendar_date, price, listing_id, status, @vsin_renter, sin_host) " +
+                    "' INTO TABLE Calendar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n'"  +
+                    " (calendar_date, price, listing_id, status, @vsin_renter, sin_host) " +
                     " SET sin_renter = nullif(@vsin_renter, 'NULL')";
             st.executeUpdate(insertCalendar);
 

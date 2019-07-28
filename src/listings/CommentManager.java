@@ -149,7 +149,6 @@ public class CommentManager {
             String insertReviewHost = "INSERT INTO UserReviews (creator_id, target_user_id, content, rating) VALUES(?, ?, ?, ?)";
             PreparedStatement pS1 = conn.prepareStatement(insertReviewHost);
             pS1.setInt(1, renterSin);
-            System.out.println(hosts.get(name));
             pS1.setInt(2, hosts.get(name));
             pS1.setString(3, reviewHost);
             pS1.setInt(4, Integer.parseInt(rating));
